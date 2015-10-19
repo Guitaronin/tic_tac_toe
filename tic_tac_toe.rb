@@ -5,6 +5,6 @@ require_relative 'tic_tac_toe/player'
 require_relative 'tic_tac_toe/printer'
 require_relative 'tic_tac_toe/tile'
 
-# game = TicTacToe::Game.new
-# game.play
+game = TicTacToe::Game.new
+game.play
     
