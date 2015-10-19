@@ -1,6 +1,6 @@
 module TicTacToe
   class Game
-    attr_accessor :player
+    attr_accessor :player, :current_input
     attr_reader :board, :monitor, :players, :printer
     def initialize(opts={})
       @board = Board.new
@@ -11,41 +11,40 @@ module TicTacToe
     end
   
     def play
+      intro
+      
       while playable?
+        process_input
+        update
         render
-        prompt
-        selection = gets.chomp
-        if selection =~ /\d\d/
-          coordinates = selection.split(//).map { |s| s.to_i }
-          begin
-            board.set(*coordinates, player.id)
-          rescue TicTacToe::Board::TileValueSet
-            handle_already_taken(selection)
-            next
-          end
-          next_player
-        elsif selection == 'help'
-          help
-          next
-        elsif selection == 'quit'
-          quit
-          break
-        else
-          handle_invalid_entry(selection)
-          next
-        end
       end
       
       end_game
+    end
+    
+    def intro
+      render
+    end
+    
+    def process_input
+      prompt
+      self.current_input = gets.chomp
+      if current_input == 'help'
+        help
+      elsif current_input == 'quit'
+        quit
+      elsif current_input !~ valid_input_pattern
+        handle_invalid_entry(selection)
+      end
     end
     
     def end_game
       render
       
       if monitor.winner?
-        printer.print("#{monitor.winner} is the winner!")
+        print("#{monitor.winner} is the winner!")
       else
-        printer.print("There is no winner.")
+        print("There is no winner.")
       end
     end
     
@@ -58,11 +57,25 @@ module TicTacToe
     end
     
     def prompt
-      printer.print("#{player}, choose a tile")
+      print("#{player}, choose a tile")
     end
   
     def render
       printer.print_board
+    end
+    
+    def update
+      if current_input =~ valid_input_pattern
+        coordinates = current_input.split(//).map { |s| s.to_i }
+        begin
+          board.set(*coordinates, player.id)
+          next_player
+        rescue TicTacToe::Board::TileValueSet
+          handle_already_taken(current_input)
+        end
+        current_input = nil
+      end
+      board
     end
     
     def handle_already_taken(entry)
@@ -75,6 +88,7 @@ module TicTacToe
     
     def quit
       print("good bye")
+      exit
     end
     
     def help
@@ -87,6 +101,10 @@ module TicTacToe
     
     def print(text)
       printer.print(text)
+    end
+    
+    def valid_input_pattern
+      /\d\d/
     end
     
   end # Game
