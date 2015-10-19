@@ -23,9 +23,11 @@ module TicTacToe
     
     def template
       t = <<-EOF
+      
       00|10|20
       01|11|21
       02|12|22
+      
       EOF
     end
     
