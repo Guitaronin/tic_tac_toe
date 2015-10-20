@@ -1,5 +1,9 @@
+# Strategy from http://stackoverflow.com/questions/125557/what-algorithm-for-a-tic-tac-toe-game-can-i-use-to-determine-the-best-move-for
 module TicTacToe
   class AIPlayer < Player
+    # Matching interface for Player
+    # and Input, since it's self
+    # contained.
     def play
       self
     end
