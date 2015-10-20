@@ -4,11 +4,12 @@ module TicTacToe
     attr_reader :board, :monitor, :players, :printer
     def initialize(opts={})
       @board   = Board.new
-      @players = opts[:ai] ? [Player.new(1, self), AIPlayer.new(2, self)] : [1, 2].map { |id| Player.new(id, self) }
+      num_players = opts.fetch(:num_players, 1)
+      build_players(num_players)
       @player  = players.first
       @monitor = opts.fetch(:game_monitor, GameMonitor.new(self))
       @printer = opts.fetch(:printer, Printer.new(self))
-    end
+    end      
   
     def play
       intro
@@ -84,5 +85,23 @@ module TicTacToe
       monitor.playable?
     end
     
+    def build_players(num_players)
+      @players = case num_players
+      when 0
+        [1, 2].map { |id| AIPlayer.new(id, self) }
+      when 1
+        [Player.new(1, self), AIPlayer.new(2, self)]
+      when 2
+        [1, 2].map { |id| Player.new(id, self) }
+      else
+        raise InvalidNumberOfPlayers
+      end
+    end
+    
+    class InvalidNumberOfPlayers < StandardError
+      def message
+        "number of players must be 0, 1, or 2"
+      end
+    end
   end # Game
 end
