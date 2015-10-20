@@ -39,16 +39,30 @@ module TicTacToe
     end
     
     def diagonals
-      [[tile(0,0), tile(1,1), tile(2,2)],
-      [tile(0,2), tile(1,1), tile(2,0)]]
+      [ys, ys.reverse].map do |y_plots|
+        xs.zip(y_plots).map { |c| tile(*c) }
+      end
     end
     
     def corners
-      [tile(0,0), tile(0,2), tile(2,0), tile(2,2)]
+      [
+        [xs.min, ys.min],
+        [xs.min, ys.max],
+        [xs.max, ys.min],
+        [xs.max, ys.max]
+      ].map do |coordinates|
+        tile(*coordinates)
+      end
+    end
+    
+    def center
+      x = xs.length / 2
+      y = ys.length / 2
+      tile(x, y)
     end
     
     def sides
-      [tile(1,0), tile(0,1), tile(2,1), tile(1,2)]
+      (tiles - corners).delete_if { |t| t == center }
     end
         
     def build_board
