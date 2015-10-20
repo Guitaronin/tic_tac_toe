@@ -39,8 +39,8 @@ module TicTacToe
     end
     
     def diagonals
-      [ys, ys.reverse].map do |y_plots|
-        xs.zip(y_plots).map { |c| tile(*c) }
+      [ys, ys.reverse].map do |_ys|
+        xs.zip(_ys).map { |c| tile(*c) }
       end
     end
     
