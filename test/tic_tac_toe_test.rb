@@ -8,7 +8,7 @@ module TicTacToe
 
   class TestAIPLayer < Minitest::Test
     def setup
-      @game      = Game.new(ai: true)
+      @game      = Game.new
       @opponent  = @game.players.first
       @ai_player = @game.players.last
     end
@@ -53,7 +53,13 @@ module TicTacToe
     
     def test_it_plays_empty_corner
       set_opponent_moves(1,1)
-      assert_equal @ai_player.send(:empty_corner).coordinates, [0,0]
+      set_opponent_moves(2,2)
+      set_ai_moves(0,0)
+      # O|_|_
+      # _|X|_
+      # _|_|X
+      
+      assert_includes [[2,0], [0,2]], @ai_player.send(:empty_corner).coordinates
     end
     
     def test_it_plays_empty_side
