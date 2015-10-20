@@ -1,12 +1,13 @@
+# TODO: handle out of bounds input
 module TicTacToe
   class Game
     attr_accessor :player, :current_input
     attr_reader :board, :monitor, :players, :printer
     def initialize(opts={})
       @board   = Board.new
-      @players = [1, 2].map { |id| Player.new(id) }
+      @players = opts.fetch(:players, [1, 2].map { |id| Player.new(id, self) })
       @player  = players.first
-      @monitor = GameMonitor.new(self)
+      @monitor = opts.fetch(:game_monitor, GameMonitor.new(self))
       @printer = opts.fetch(:printer, Printer.new(self))
     end
   
@@ -22,43 +23,48 @@ module TicTacToe
       end_game
     end
     
+    def next_player
+      self.player = player == players.first ? players.last : players.first
+    end
+    
+    def print(text)
+      printer.print(text)
+    end
+    
     def self.play(opts={})
       self.new(opts).play
     end
     
+    def set(x, y, value)
+      board.set(x, y, value)
+    end
     
+        
     private
-    
-    # =================
-    # = Main Methods  =
-    # =================
     
     def process_input
       prompt
-      self.current_input = gets.chomp
-      if current_input == 'help'
-        help
-      elsif current_input == 'quit'
-        quit
-      elsif current_input !~ valid_input_pattern
-        handle_invalid_entry(selection)
-      end
+      get_input
+    end
+    
+    def prompt
+      player.prompt
+    end
+    
+    def get_input
+      self.current_input = player.play
     end
     
     def update
-      if current_input =~ valid_input_pattern
-        coordinates = current_input.split(//).map { |s| s.to_i }
-        begin
-          board.set(*coordinates, player.id)
-          next_player
-        rescue TicTacToe::Board::TileValueSet
-          handle_already_taken(current_input)
-        end
-        current_input = nil
-      end
-      board
+      current_input.exec
+      clear_input
+      return board
     end
-  
+    
+    def clear_input
+      self.current_input = nil
+    end
+      
     def render
       printer.print_board
     end
@@ -74,48 +80,8 @@ module TicTacToe
       end
     end
     
-    
-    # =================
-    # = Other Methods =
-    # =================
-    
-    def handle_already_taken(entry)
-      print("#{entry} already taken. Try again.")
-    end
-    
-    def handle_invalid_entry(entry)
-      print("#{entry.inspect} is not a valid entry. Try 'help'.")
-    end
-    
-    def next_player
-      self.player = player == players.first ? players.last : players.first
-    end
-    
     def playable?
       monitor.playable?
-    end
-    
-    def prompt
-      print("#{player}, choose a tile")
-    end
-    
-    def quit
-      print("good bye")
-      exit
-    end
-    
-    def help
-      print("Enter xy grid coordinates (e.g. 01) on your turn.")
-      print(printer.template)
-    end
-    
-    
-    def print(text)
-      printer.print(text)
-    end
-    
-    def valid_input_pattern
-      /\d\d/
     end
     
   end # Game

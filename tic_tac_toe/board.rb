@@ -58,5 +58,6 @@ module TicTacToe
     
     
     class TileValueSet < StandardError; end
+    class OutOfBounds  < StandardError; end
   end # Board
 end
