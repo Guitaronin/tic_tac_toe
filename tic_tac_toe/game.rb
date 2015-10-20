@@ -3,7 +3,7 @@ module TicTacToe
     attr_accessor :player, :current_input
     attr_reader :board, :monitor, :players, :printer
     def initialize(opts={})
-      @board = Board.new
+      @board   = Board.new
       @players = [1, 2].map { |id| Player.new(id) }
       @player  = players.first
       @monitor = GameMonitor.new(self)
