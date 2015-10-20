@@ -9,7 +9,7 @@ module TicTacToe
       rescue TicTacToe::Board::OutOfBounds
         handle_out_of_bounds
       rescue TicTacToe::Input::Play::Unparsable
-        handle_unparseable
+        handle_unparsable
       end
     end
     

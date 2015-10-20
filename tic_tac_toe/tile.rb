@@ -7,6 +7,10 @@ module TicTacToe
         @x, @y = x, y
       end
       
+      def coordinates
+        [x, y]
+      end
+      
       def empty?
         value.nil?
       end

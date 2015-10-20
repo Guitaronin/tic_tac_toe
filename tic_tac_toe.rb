@@ -7,8 +7,9 @@ require_relative 'tic_tac_toe/input/help'
 require_relative 'tic_tac_toe/input/play'
 require_relative 'tic_tac_toe/input/quit'
 require_relative 'tic_tac_toe/player'
+require_relative 'tic_tac_toe/ai_player'
 require_relative 'tic_tac_toe/printer'
 require_relative 'tic_tac_toe/tile'
 
-# TicTacToe::Game.play
+TicTacToe::Game.play(ai: true)
     

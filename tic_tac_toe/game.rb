@@ -5,7 +5,7 @@ module TicTacToe
     attr_reader :board, :monitor, :players, :printer
     def initialize(opts={})
       @board   = Board.new
-      @players = opts.fetch(:players, [1, 2].map { |id| Player.new(id, self) })
+      @players = opts[:ai] ? [Player.new(1, self), AIPlayer.new(2, self)] : [1, 2].map { |id| Player.new(id, self) }
       @player  = players.first
       @monitor = opts.fetch(:game_monitor, GameMonitor.new(self))
       @printer = opts.fetch(:printer, Printer.new(self))
@@ -31,12 +31,13 @@ module TicTacToe
       printer.print(text)
     end
     
-    def self.play(opts={})
-      self.new(opts).play
-    end
-    
     def set(x, y, value)
       board.set(x, y, value)
+    end
+    
+    
+    def self.play(opts={})
+      self.new(opts).play
     end
     
         

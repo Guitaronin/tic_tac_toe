@@ -14,6 +14,9 @@ module TicTacToe
     end
     
     def set(x, y, value)
+      unless xs.include?(x) && ys.include?(y)
+        raise OutOfBounds
+      end
       t = tile(x, y)
       raise TileValueSet if t.value
       t.value = value
@@ -38,6 +41,14 @@ module TicTacToe
     def diagonals
       [[tile(0,0), tile(1,1), tile(2,2)],
       [tile(0,2), tile(1,1), tile(2,0)]]
+    end
+    
+    def corners
+      [tile(0,0), tile(0,2), tile(2,0), tile(2,2)]
+    end
+    
+    def sides
+      [tile(1,0), tile(0,1), tile(2,1), tile(1,2)]
     end
         
     def build_board
