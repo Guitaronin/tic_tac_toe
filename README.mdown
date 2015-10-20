@@ -4,6 +4,16 @@ TicTacToe
 ###About:
 
 Basic tic tac toe game. Play 2 player, or against an AI player, or watch two AI players compete.
+
+#### Win Detection Algorithm
+
+This responsibility is delegated to an instance of GameMonitor. 
+
+1. For each row on the board
+  1. verify no tiles are empty
+  2. verify count of unique values is 1
+  3. if above conditions are true, there is a winner
+2. Unless there is a winner, repeat for columns and diagonals
   
 ###Usage:
 
