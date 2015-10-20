@@ -12,3 +12,8 @@ Basic tic tac toe game. Play 2 player, or against an AI player, or watch two AI 
 ###Tests:
 
 `ruby test/tic_tac_toe_test.rb`
+
+###TODO:
+
+* Incomplete test coverage
+* AI always plays the first option of any strategy. If there are options, it should be random (or intelligent!).
