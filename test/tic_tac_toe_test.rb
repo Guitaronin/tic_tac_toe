@@ -23,12 +23,12 @@ module TicTacToe
     
     def test_it_finds_a_win
       [[0,0], [0,1]].each { |c| set_ai_moves(*c) }
-      assert_equal @ai_player.send(:win).coordinates, [0,2]
+      assert_equal [0,2], @ai_player.send(:win).coordinates
     end
     
     def test_it_blocks_opponent_win
       [[0,0], [0,1]].each { |c| set_opponent_moves(*c) }
-      assert_equal @ai_player.send(:block_win).coordinates, [0,2]
+      assert_equal [0,2], @ai_player.send(:block_win).coordinates
     end
     
     def test_it_finds_fork_move
@@ -45,13 +45,13 @@ module TicTacToe
     end
     
     def test_it_plays_center
-      assert_equal @ai_player.send(:center).coordinates, [1,1]
+      assert_equal [1,1], @ai_player.send(:center).coordinates
     end
     
     def test_it_plays_opposite_corner
       set_ai_moves(1,1)
       set_opponent_moves(0,0)
-      assert_equal @ai_player.send(:opposite_corner).coordinates, [2,2]
+      assert_equal [2,2], @ai_player.send(:opposite_corner).coordinates
     end
     
     def test_it_plays_empty_corner
@@ -83,11 +83,11 @@ module TicTacToe
     
     def test_it_sets_tile
       @board.set(0,0,1)
-      assert_equal @board.tile(0,0).value, 1
+      assert_equal 1, @board.tile(0,0).value
     end
     
     def test_it_finds_tile
-      assert_equal @board.tile(2,2).coordinates, [2,2]
+      assert_equal [2,2], @board.tile(2,2).coordinates
     end
   end
 
@@ -109,7 +109,7 @@ module TicTacToe
     
     def test_it_selects_winner
       [[0,0], [1,0], [2,0]].each { |c| @game.set(*c, 1) }
-      assert_equal @game_monitor.winner, @game.players.first
+      assert_equal @game.players.first, @game_monitor.winner
     end
   end
 
@@ -121,7 +121,7 @@ module TicTacToe
     def test_it_toggles_player
       start_player = @game.player
       @game.next_player
-      refute_equal @game.player, start_player
+      refute_equal start_player, @game.player
     end
   end
 
