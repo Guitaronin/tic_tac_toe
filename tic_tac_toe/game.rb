@@ -1,4 +1,3 @@
-# TODO: handle out of bounds input
 module TicTacToe
   class Game
     attr_accessor :player, :current_input
