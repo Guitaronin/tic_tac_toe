@@ -22,9 +22,16 @@ module TicTacToe
       end_game
     end
     
-    def intro
-      render
+    def self.play(opts={})
+      self.new(opts).play
     end
+    
+    
+    private
+    
+    # =================
+    # = Main Methods  =
+    # =================
     
     def process_input
       prompt
@@ -36,32 +43,6 @@ module TicTacToe
       elsif current_input !~ valid_input_pattern
         handle_invalid_entry(selection)
       end
-    end
-    
-    def end_game
-      render
-      
-      if monitor.winner?
-        print("#{monitor.winner} is the winner!")
-      else
-        print("There is no winner.")
-      end
-    end
-    
-    def next_player
-      self.player = player == players.first ? players.last : players.first
-    end
-    
-    def playable?
-      monitor.playable?
-    end
-    
-    def prompt
-      print("#{player}, choose a tile")
-    end
-  
-    def render
-      printer.print_board
     end
     
     def update
@@ -77,6 +58,26 @@ module TicTacToe
       end
       board
     end
+  
+    def render
+      printer.print_board
+    end
+    alias_method :intro, :render
+    
+    def end_game
+      render
+      
+      if monitor.winner?
+        print("#{monitor.winner} is the winner!")
+      else
+        print("There is no winner.")
+      end
+    end
+    
+    
+    # =================
+    # = Other Methods =
+    # =================
     
     def handle_already_taken(entry)
       print("#{entry} already taken. Try again.")
@@ -84,6 +85,18 @@ module TicTacToe
     
     def handle_invalid_entry(entry)
       print("#{entry.inspect} is not a valid entry. Try 'help'.")
+    end
+    
+    def next_player
+      self.player = player == players.first ? players.last : players.first
+    end
+    
+    def playable?
+      monitor.playable?
+    end
+    
+    def prompt
+      print("#{player}, choose a tile")
     end
     
     def quit
@@ -96,8 +109,6 @@ module TicTacToe
       print(printer.template)
     end
     
-    
-    private
     
     def print(text)
       printer.print(text)
