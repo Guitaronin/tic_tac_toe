@@ -9,7 +9,5 @@ require_relative 'tic_tac_toe/input/quit'
 require_relative 'tic_tac_toe/player'
 require_relative 'tic_tac_toe/ai_player'
 require_relative 'tic_tac_toe/printer'
+require_relative 'tic_tac_toe/terminal_input_getter'
 require_relative 'tic_tac_toe/tile'
-
-TicTacToe::Game.play(ai: true)
-    
