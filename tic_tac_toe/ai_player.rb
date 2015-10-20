@@ -1,6 +1,7 @@
 # Strategy from http://stackoverflow.com/questions/125557/what-algorithm-for-a-tic-tac-toe-game-can-i-use-to-determine-the-best-move-for
 module TicTacToe
   class AIPlayer < Player
+    STRATEGIES = [:win, :block_win, :fork, :block_fork, :center, :opposite_corner, :empty_corner, :empty_side]
     # Matching interface for Player
     # and Input, since it's self
     # contained.
@@ -15,6 +16,7 @@ module TicTacToe
     
     def prompt
       game.print("#{name} is thinking...")
+      # game.print("... best strategy is #{best_strategy} - #{best_move_tile.coordinates}")
     end
     
     private
@@ -36,6 +38,14 @@ module TicTacToe
       opposite_corner ||
       empty_corner    ||
       empty_side
+    end
+    
+    def strategies
+      STRATEGIES
+    end
+    
+    def best_strategy
+      strategies.find { |s| self.send(s) }
     end
     
     def opponent
