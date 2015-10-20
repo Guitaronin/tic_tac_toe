@@ -4,7 +4,7 @@ module TicTacToe
     def initialize(id, game, opts={})
       @id            = id
       @game          = game
-      @input_handler = opts.fetch(:input_handler, Input)
+      @input_handler = opts.fetch(:input_handler, TerminalInputGetter.new(game))
     end
     
     def name
@@ -13,7 +13,7 @@ module TicTacToe
     alias_method :to_s, :name
     
     def play
-      input_handler.new(gets.chomp, game)
+      input_handler.input
     end
     
     def prompt
