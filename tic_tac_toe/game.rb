@@ -1,14 +1,15 @@
 module TicTacToe
   class Game
     attr_accessor :player, :current_input
-    attr_reader :board, :monitor, :players, :printer
+    attr_reader :board, :monitor, :players, :printer, :num_players, :player_token
     def initialize(opts={})
-      @board   = Board.new
-      num_players = opts.fetch(:num_players, 1)
-      build_players(num_players)
-      @player  = players.first
-      @monitor = opts.fetch(:game_monitor, GameMonitor.new(self))
-      @printer = opts.fetch(:printer, Printer.new(self))
+      @board        = Board.new
+      @num_players  = opts.fetch(:num_players, 1)
+      @player_token = opts.fetch(:player_token, 'X')
+      @players      = build_players
+      @player       = players.first
+      @monitor      = opts.fetch(:game_monitor, GameMonitor.new(self))
+      @printer      = opts.fetch(:printer, Printer.new(self))
     end      
   
     def play
@@ -62,6 +63,14 @@ module TicTacToe
       return board
     end
     
+    def players_factory
+      @_players_factory ||= PlayersFactory.new(num_players, player_token, self)
+    end
+    
+    def build_players
+      players_factory.players
+    end
+    
     def clear_input
       self.current_input = nil
     end
@@ -83,19 +92,6 @@ module TicTacToe
     
     def playable?
       monitor.playable?
-    end
-    
-    def build_players(num_players)
-      @players = case num_players
-      when 0
-        [1, 2].map { |id| AIPlayer.new(id, self) }
-      when 1
-        [Player.new(1, self), AIPlayer.new(2, self)]
-      when 2
-        [1, 2].map { |id| Player.new(id, self) }
-      else
-        raise InvalidNumberOfPlayers
-      end
     end
     
     class InvalidNumberOfPlayers < StandardError

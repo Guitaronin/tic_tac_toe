@@ -3,8 +3,7 @@ require "minitest/autorun"
 require_relative '../tic_tac_toe'
 
 module TicTacToe
-  class TestTicTacToe < Minitest::Test
-  end
+  class TestTicTacToe < Minitest::Test; end
 
   class TestAIPLayer < Minitest::Test
     def setup
@@ -125,14 +124,11 @@ module TicTacToe
     end
   end
 
-  class TestInput < Minitest::Test
-  end
+  class TestInput < Minitest::Test; end
 
-  class TestInput::Base < Minitest::Test
-  end
+  class TestInput::Base < Minitest::Test; end
 
-  class TestInput::Help < Minitest::Test
-  end
+  class TestInput::Help < Minitest::Test; end
 
   class TestInput::Play < Minitest::Test
     def test_it_sets_tile_from_input
@@ -143,15 +139,13 @@ module TicTacToe
     end
   end
 
-  class TestInput::Quit < Minitest::Test
-  end
+  class TestInput::Quit < Minitest::Test; end
 
-  class TestPLayer < Minitest::Test
-  end
+  class TestPLayer < Minitest::Test; end
+  
+  class TestPlayersFactory < Minitest::Test; end
 
-  class TestPrinter < Minitest::Test
-  end
+  class TestPrinter < Minitest::Test; end
 
-  class TestTile < Minitest::Test
-  end
+  class TestTile < Minitest::Test; end
 end
