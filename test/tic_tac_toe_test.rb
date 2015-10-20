@@ -33,12 +33,15 @@ module TicTacToe
     
     def test_it_finds_fork_move
       [[0,0], [2,2]].each { |c| set_ai_moves(*c) }
-      assert_equal @ai_player.send(:fork).coordinates, [2,0]
+      # X|_|_
+      # _|_|_
+      # _|_|X
+      assert_includes [[2,0], [0,2]], @ai_player.send(:fork).coordinates
     end
     
     def test_it_blocks_opponent_fork_move
       [[0,0], [2,2]].each { |c| set_opponent_moves(*c) }
-      assert_equal @ai_player.send(:block_fork).coordinates, [2,0]
+      assert_includes [[2,0], [0,2]], @ai_player.send(:block_fork).coordinates
     end
     
     def test_it_plays_center
@@ -65,7 +68,11 @@ module TicTacToe
     def test_it_plays_empty_side
       [[0,0], [2,0], [0,2]].each { |c| set_opponent_moves(*c) }
       [[1,1], [2,2]].each { |c| set_ai_moves(*c) }
-      assert_equal @ai_player.send(:empty_side).coordinates, [1,0]
+      # X|_|X
+      # _|O|_
+      # X|_|O
+      
+      assert_includes [[1,0], [0,1], [2,1], [1,2]], @ai_player.send(:empty_side).coordinates
     end
   end
 

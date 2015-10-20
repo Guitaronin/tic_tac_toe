@@ -72,7 +72,7 @@ module TicTacToe
       target = sub_sets(value, 2, 1).first
       
       if target
-        target.find { |t| t.empty? }
+        random_empty(target)
       end
     end
       
@@ -95,7 +95,7 @@ module TicTacToe
     end
     
     def fork
-      fork_tiles_for(self.id).first
+      fork_tiles_for(self.id).sample
     end
     
     def block_fork
@@ -108,11 +108,11 @@ module TicTacToe
     
     def fork_defense_1
       _sub_sets = sub_sets(self.id, 1, 2)
-      _sub_sets.find { |t| t.empty? }
+      random_empty(_sub_sets)
     end
     
     def fork_defense_2(fork_tiles)
-      fork_tiles.first
+      fork_tiles.sample
     end
     
     def center
@@ -127,15 +127,19 @@ module TicTacToe
         y = tile.y == 0 ? 2 : 0
         board.tile(x, y)
       end
-      opposite_corners.find { |t| t.empty? }
+      random_empty(opposite_corners)
     end
     
     def empty_corner
-      board.corners.find { |t| t.empty? }
+      random_empty(board.corners)
     end
     
     def empty_side
-      board.sides.find { |t| t.empty? }
+      random_empty(board.sides)
+    end
+    
+    def random_empty(tiles)
+      tiles.select { |t| t.empty? }.sample
     end
   end
 end
